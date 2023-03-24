@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthenticationController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\API\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,11 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('register',[AuthenticationController::class,'register']);
+Route::post('register', [AuthenticationController::class, 'register']);
 
-Route::post('login',[AuthenticationController::class,'login']);
+Route::post('login', [AuthenticationController::class, 'login']);
 
+Route::middleware('auth:api')->group(function () {
+    Route::prefix('categories')->group(function () {
+        Route::get('/',[CategoryController::class,'index']);
+        Route::post('/', [CategoryController::class, 'store']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    });
 });
+
+

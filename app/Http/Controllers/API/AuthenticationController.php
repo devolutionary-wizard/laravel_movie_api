@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +13,7 @@ use Validator;
  * @method sendResponse(array $success, string $string)
  * @method sendError(string $string, $errors)
  */
-class AuthenticationController extends Controller
+class AuthenticationController extends BaseController
 {
     public function register(Request $request)
     {
@@ -24,7 +24,7 @@ class AuthenticationController extends Controller
                 'c_password' => 'required|same:password',]
         );
         if ($validator->fails()) {
-            return response()->json(['message' => 'Validation Error.', $validator->errors()]);
+            return $this->sendError('Validation Error.', $validator->errors());
         }
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
@@ -32,7 +32,7 @@ class AuthenticationController extends Controller
         $success['remember_token'] = $user->createToken('MyApp')->accessToken;
         $success['name'] = $user->name;
 
-        return response()->json(['message' => 'User register successfully.', $success]);
+        return $this->sendResponse($success, 'User register successfully.');
     }
 
     public function login(Request $request)
@@ -41,9 +41,9 @@ class AuthenticationController extends Controller
             $user = Auth::user();
             $success['remember_token'] = $user->createToken('MyApp')->accessToken;
             $success['name'] = $user->name;
-            return response()->json(['message' => 'User login successfully.', $success]);
+            return $this->sendResponse($success, 'User login successfully.');
         } else {
-            return response()->json(['message' => 'Unauthorised.']);
+            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
         }
     }
 }
