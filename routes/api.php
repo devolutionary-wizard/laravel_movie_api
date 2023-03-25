@@ -21,8 +21,9 @@ Route::post('login', [AuthenticationController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
     Route::prefix('categories')->group(function () {
-        Route::get('/',[CategoryController::class,'index']);
-        Route::post('/', [CategoryController::class, 'store']);
+        Route::get('',[CategoryController::class,'index']);
+        Route::post('', [CategoryController::class, 'store']);
+        Route::put('{id}',[CategoryController::class,'edit']);
 
     });
 });
