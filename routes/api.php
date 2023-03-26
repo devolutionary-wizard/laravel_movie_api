@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\API\AuthenticationController;
 use App\Http\Controllers\API\CategoryController;
-use App\Models\SubCategory;
+use App\Http\Controllers\API\MovieController;
+use App\Http\Controllers\API\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,10 +29,16 @@ Route::middleware('auth:api')->group(function () {
         Route::delete('{id}', [CategoryController::class, 'destroy']);
     });
     Route::prefix('sub_categories')->group(function () {
-        Route::get('', [SubCategory::class, 'index']);
-        Route::post('', [SubCategory::class, 'store']);
-        Route::put('{id}', [SubCategory::class, 'edit']);
-        Route::delete('{id}', [SubCategory::class, 'destroy']);
+        Route::get('', [SubCategoryController::class, 'index']);
+        Route::post('', [SubCategoryController::class, 'store']);
+        Route::put('{id}', [SubCategoryController::class, 'edit']);
+        Route::delete('{id}', [SubCategoryController::class, 'destroy']);
+    });
+    Route::prefix('movies')->group(function(){
+        Route::get('', [MovieController::class, 'index']);
+        Route::post('', [MovieController::class, 'store']);
+        Route::put('{id}', [MovieController::class, 'edit']);
+        Route::delete('{id}', [MovieController::class, 'destroy']);
     });
 });
 

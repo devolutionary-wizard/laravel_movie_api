@@ -15,7 +15,8 @@ class CategoryResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'name' => $this->name
+            'name' => $this->name,
+            'sub_categories'=> isset($this->subcategories) ? SubCategoryResource::collection($this->subcategories) : null
         ];
     }
 }

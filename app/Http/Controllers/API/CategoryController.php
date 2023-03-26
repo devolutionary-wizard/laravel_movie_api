@@ -17,7 +17,7 @@ class CategoryController extends BaseController
 
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::with('subcategories')->get();
         return $this->sendResponse(CategoryResource::collection($categories), 'Categories retrieved successfully.');
     }
 
